@@ -1,0 +1,327 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>HealthyMind</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	</head>
+	<body>
+    <div class="navbar justify-content-center">
+        <a href="home" class="navbtn">Home</a>
+        <a href="test" class="active">Test</a>
+        <a href="results" class="navbtn">Result</a>
+        <a href="logout" class="logoutbtn">Logout</a>
+    </div>
+	<section class="ftco-section">
+		<div class="container">
+            <div class="row justify-content-center">
+                <h3>HealthyMind</h3>
+            </div>
+			
+			<div class="row justify-content-center">
+				<div class="col-md-10 col-lg-10">
+                    <form action="test" method="POST">
+                    {% csrf_token %}
+                    <!-- disclaimer start -->
+					<div class="login-wrap p-4 p-md-5" id="disclaimer">
+						{% if questionairedone %}
+						Questionarre submitted! Do you want to add another response? Please go on.
+						{% endif %}
+						<h3 class="text-center mb-4">Disclaimer</h3>
+                        <br/>
+						<p>The content of the webpages in our Healthy Mind application section are provided for education and entertainment  only. They are not intended to, and do not, amount to advice which you should rely on. They are not in any way an alternative to specific advice. If you have questions about any mental healthcare matter, you should consult your doctor or other professional healthcare provider without delay. Please tick the box to agree. </p>
+                        <br/>
+                        <script>
+                            function enableNextDisclaimer()
+                            {
+                                if ($('#agreeCheckbox').is(':checked'))
+                                {
+                                    $("#next1").prop("disabled", false);
+                                }
+                                else
+                                {
+                                    $("#next1").prop("disabled", true);
+                                }
+                            }
+                        </script>
+                        <input type="checkbox" id="agreeCheckbox" onclick="enableNextDisclaimer()"> <label><small>Tick If Agree</small></label>
+                        
+                        <br/>
+                        <script>
+                            function movetoabout()
+                            {
+                                $("#disclaimer").css("display", "none");
+                                $("#abouttest").css("display", "block");
+                            }
+                        </script>
+                        <button type="button" class="btn btn-info btn-sm" id="next1" style="float: right" onclick="movetoabout()" disabled=true>Next ></button>
+                        
+					</div>
+                    <!-- disclaimer end -->
+
+
+                     <!-- about start -->
+					<div class="login-wrap p-4 p-md-5" id="abouttest" style="display: none">
+						
+						<h3 class="text-center mb-4">About this test</h3>
+                        <br/>
+						<p>The test consists of 6 questions with a minimal limit of 70 characters. There is no good or bad answer. Questions are addressed in an open-structure way. The more explicit you are about the question, the more accurate results we get. 
+                            The questions that are to be asked concern what you are like most of the time. We are interested in what has been typical of you throughout your life, and not just recently. If you have changed and your answers might have been different at some time in the past, be sure to let us know.</p>
+                        <br/>
+                        <script>
+                            function movetoquestion1()
+                            {
+                                $("#abouttest").css("display", "none");
+                                $("#question1").css("display", "block");
+                                $("#question2").css("display", "none");
+                            }
+                        </script>
+                        <button type="button" class="btn btn-info btn-sm" id="next2" style="float: right" onclick="movetoquestion1()" >Next ></button>
+                        
+					</div>
+                    <!-- about end -->
+
+                    <!-- question1 start -->
+					<div class="login-wrap p-4 p-md-5" id="question1" style="display: none">
+						
+						<h3 class="text-center mb-4">Question No. 1</h3>
+                        <br/>
+						<p>We are going to talk about your feelings like calmness, anger.   Considering how often you express your feelings in a social context, describe the reasons and the way that you choose to do it. 
+                        <br/>  Give examples in a social context that support your answer. </p>
+                        <br/>
+                        <small>*Minimum 70 characters*</small>
+                        <textarea name="answer1" id="answer1" onkeyup="checkAnswer1()" class="form-control" rows="4"></textarea>
+                        <br/>
+                        <script>
+                            function movetoquestion2()
+                            {
+                                $("#question1").css("display", "none");
+                                $("#question2").css("display", "block");
+                                $("#question3").css("display", "none");
+                            }
+                            function checkAnswer1()
+                            {
+                                var text = $("#answer1").val();
+                                if(text.length<70)
+                                {
+                                    $("#next3").prop("disabled", true);
+                                }
+                                else
+                                {
+                                    $("#next3").prop("disabled", false);
+                                }
+                            }
+                        </script>
+
+                        <button type="button" class="btn btn-info btn-sm" id="next3" style="float: right" disabled=true onclick="movetoquestion2()" >Next ></button>
+                        
+					</div>
+                    <!-- question1 end -->
+
+                    <!-- question2 start -->
+					<div class="login-wrap p-4 p-md-5" id="question2" style="display: none">
+						
+						<h3 class="text-center mb-4">Question No. 2</h3>
+                        <br/>
+						<p>We are going to talk about relationships. Reporting yourself at your friends circle and the openness to meet new friends, describe those relations, the nature of them, the lack of them. Giving us examples of relations that you have or don’t, how is this impacting you day to day life. </p>
+                        <br/>
+                        <small>*Minimum 70 characters*</small>
+                        <textarea name="answer2" id="answer2" onkeyup="checkAnswer2()" class="form-control" rows="4"></textarea>
+                        <br/>
+                        <script>
+                            function movetoquestion3()
+                            {
+                                $("#question2").css("display", "none");
+                                $("#question3").css("display", "block");
+                                $("#question4").css("display", "none");
+                            }
+                            function checkAnswer2()
+                            {
+                                var text = $("#answer2").val();
+                                if(text.length<70)
+                                {
+                                    $("#next4").prop("disabled", true);
+                                }
+                                else
+                                {
+                                    $("#next4").prop("disabled", false);
+                                }
+                            }
+                        </script>
+                        <button type="button" class="btn btn-info btn-sm" id="next2" style="float: left;" onclick="movetoquestion1()" >< Back</button>
+                        <button type="button" class="btn btn-info btn-sm" id="next4" disabled=true style="float: right" onclick="movetoquestion3()" >Next ></button>
+                        
+					</div>
+                    <!-- question2 end -->
+
+                    <!-- question3 start -->
+					<div class="login-wrap p-4 p-md-5" id="question3" style="display: none">
+						
+						<h3 class="text-center mb-4">Question No. 3</h3>
+                        <br/>
+						<p>
+                            We are going to talk about the word around us. We can never know all aspects of the word, but we can have an understanding of it. Often we can see people argue about some kind of conspiracy going around them or in the world at large. Describe with example this scenario, how this impacts you day to day life. 
+                        </p>
+                        <br/>
+                        <small>*Minimum 70 characters*</small>
+                        <textarea name="answer3" id="answer3" onkeyup="checkAnswer3()"  class="form-control" rows="4"></textarea>
+                        <br/>
+                        <script>
+                            function movetoquestion4()
+                            {
+                                $("#question3").css("display", "none");
+                                $("#question4").css("display", "block");
+                                $("#question5").css("display", "none");
+                            }
+                            function checkAnswer3()
+                            {
+                                var text = $("#answer3").val();
+                                if(text.length<70)
+                                {
+                                    $("#next5").prop("disabled", true);
+                                }
+                                else
+                                {
+                                    $("#next5").prop("disabled", false);
+                                }
+                            }
+                        </script>
+                        <button type="button" class="btn btn-info btn-sm" id="next2" style="float: left;" onclick="movetoquestion2()" >< Back</button>
+                        <button type="button" class="btn btn-info btn-sm" disabled=true id="next5" style="float: right" onclick="movetoquestion4()" >Next ></button>
+                        
+					</div>
+                    <!-- question3 end -->
+
+                    <!-- question4 start -->
+					<div class="login-wrap p-4 p-md-5" id="question4" style="display: none">
+						
+						<h3 class="text-center mb-4">Question No. 4</h3>
+                        <br/>
+						<p>
+                            We are going to talk about our impulses. <br/>
+                            Some people have a habit of doing things suddenly or unexpectedly without giving any
+                            thought about what might happen. Those people are taking sometime radical decisions like: quitting job, gambling big sum of money, physically abuse other people or treating to commit suicide. What is your opinion about having such habits. Describe with example if any situation applied to you and what implication in your life and others. 
+                        </p>
+                        <br/>
+                        <small>*Minimum 70 characters*</small>
+                        <textarea name="answer4" id="answer4" onkeyup="checkAnswer4()"  class="form-control" rows="4"></textarea>
+                        <br/>
+                        <script>
+                            function movetoquestion5()
+                            {
+                                $("#question4").css("display", "none");
+                                $("#question5").css("display", "block");
+                                $("#question6").css("display", "none");
+                            }
+                            function checkAnswer4()
+                            {
+                                var text = $("#answer4").val();
+                                if(text.length<70)
+                                {
+                                    $("#next6").prop("disabled", true);
+                                }
+                                else
+                                {
+                                    $("#next6").prop("disabled", false);
+                                }
+                            }
+                        </script>
+                        <button type="button" class="btn btn-info btn-sm" id="next2" style="float: left;" onclick="movetoquestion3()" >< Back</button>
+                        <button type="button" class="btn btn-info btn-sm" disabled=true id="next6" style="float: right" onclick="movetoquestion5()" >Next ></button>
+                        
+					</div>
+                    <!-- question4 end -->
+
+
+                     <!-- question5 start -->
+					<div class="login-wrap p-4 p-md-5" id="question5" style="display: none">
+						
+						<h3 class="text-center mb-4">Question No. 5</h3>
+                        <br/>
+						<p>
+                            We are going to talk about substance abuse. Some people are using alcohol in large amounts of illegal drugs to help them to cope with emotional strong events in their life. How would you describe this behaviour in rapport with your experience and beliefs? 
+                        </p>
+                        <br/>
+                        <small>*Minimum 70 characters*</small>
+                        <textarea name="answer5" id="answer5" onkeyup="checkAnswer5()"  class="form-control" rows="4"></textarea>
+                        <br/>
+                        <script>
+                            function movetoquestion6()
+                            {
+                                $("#question5").css("display", "none");
+                                $("#question6").css("display", "block");
+                            }
+                            function checkAnswer5()
+                            {
+                                var text = $("#answer5").val();
+                                if(text.length<70)
+                                {
+                                    $("#next7").prop("disabled", true);
+                                }
+                                else
+                                {
+                                    $("#next7").prop("disabled", false);
+                                }
+                            }
+                        </script>
+                        <button type="button" class="btn btn-info btn-sm" id="next2" style="float: left;" onclick="movetoquestion4()" >< Back</button>
+                        <button type="button" class="btn btn-info btn-sm" disabled=true id="next7" style="float: right" onclick="movetoquestion6()" >Next ></button>
+                        
+					</div>
+                    <!-- question5 end -->
+
+
+                     <!-- question6 start -->
+					<div class="login-wrap p-4 p-md-5" id="question6" style="display: none">
+						
+						<h3 class="text-center mb-4">Question No. 6</h3>
+                        <br/>
+						<p>
+                            We are going to talk about self. Some people think that one of their problems is that they do not know who they are, so they behave as though they don’t know what to expect from themselves. Reflecting on this situation gives us a description about how you see yourself. Are you so different with different people or in different situations that you don't
+                            behave like the same person?
+                        </p>
+                        <br/>
+                        <small>*Minimum 70 characters*</small>
+                        <textarea name="answer6" id="answer6" onkeyup="checkAnswer6()"  class="form-control" rows="4"></textarea>
+                        <br/>
+                        <script>
+                            function checkAnswer6()
+                            {
+                                var text = $("#answer6").val();
+                                if(text.length<70)
+                                {
+                                    $("#next8").prop("disabled", true);
+                                }
+                                else
+                                {
+                                    $("#next8").prop("disabled", false);
+                                }
+                            }
+                        </script>
+                        <button type="button" class="btn btn-info btn-sm" id="back6" style="float: left;" onclick="movetoquestion5()" >< Back</button>
+                        <button type="submit" class="btn btn-info btn-sm" disabled=true id="next8" style="float: right" >Submit ></button>
+                        
+					</div>
+                    <!-- question6 end -->
+                    </form>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script src="js/jquery.min.js"></script>
+  <script src="js/popper.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/main.js"></script>
+
+	</body>
+</html>
+

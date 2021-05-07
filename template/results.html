@@ -1,0 +1,115 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>HealthyMind</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+	</head>
+	<body>
+    <div class="navbar justify-content-center">
+        <a href="home" class="navbtn">Home</a>
+        <a href="test" class="navbtn">Test</a>
+        <a href="results" class="active">Result</a>
+        <a href="logout" class="logoutbtn">Logout</a>
+    </div>
+	<section class="ftco-section">
+		<div class="container">
+            <div class="row justify-content-center">
+                <h3>HealthyMind</h3>
+            </div>
+			
+			<div class="row justify-content-center">
+				<div class="col-md-10 col-lg-10">
+					<div class="login-wrap p-4 p-md-5">
+						{% if datacoming %}
+						<!-- {{imgstr}} - hjhjh -->
+						{% endif %}
+						<h3 class="mb-4">Charts </h3>
+                        <br/>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <canvas id="myChart"></canvas>
+                            </div>
+                        </div>
+                        <br/>
+                        <h3 class="mb-4">Explanation</h3>
+                        
+                        <ul>
+                            <li>Cluster A: {{ a }}%</li>
+                            <li>Explanation
+                                Cluster A is called the odd, eccentric cluster. It includes Paranoid Personality Disorder, Schizoid Personality Disorder, and Schizotypal Personality Disorders. The common features of the personality disorders in this cluster are social awkwardness and social withdrawal. These disorders are dominated by distorted thinking.
+                            </li>
+                            <li>Cluster B: {{ b }}%</li>
+                            <li>A person with this type has difficulties regulating their emotions and behavior. Others may consider their behavior dramatic, emotional, or erratic. There are four cluster B disorders: antisocial, borderline, histrionic, and narcissistic personality disorders.</li>
+                            <li>Cluster C: {{ c }}%</li>
+                            <li>A person with this type behaves in anxious or avoidant ways. There are three cluster C disorders: avoidant, dependent, and obsessive-compulsive personality disorders.</li>
+                        </ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+    <script>
+    function addData(chart, label, data, bg) {
+        chart.data.labels.push(label);
+        chart.data.datasets.forEach((dataset) => {
+            dataset.data.push(data);
+            dataset.backgroundColor.push(bg);
+        });
+        chart.update();
+    }
+    </script>
+    <script>
+        const labels = [
+        'Cluster A',
+        'Cluster B',
+        'Cluster C'
+        ];
+        const data = {
+        labels: labels,
+        datasets: [{
+            label: 'My First dataset',
+            backgroundColor: "#048971",
+            borderColor: '#0F9FC2',
+            data: {{imgstr}},
+        }]
+        };
+        const config = {
+        type: 'pie',
+        data,
+        options: {}
+        };
+
+        const config2 = {
+        type: 'pie',
+        data,
+        options: {}
+        };
+        
+        var myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+
+        // var myChart = new Chart(
+        //     document.getElementById('myChart2'),
+        //     config2
+        // );
+    </script>
+	<script src="js/jquery.min.js"></script>
+  <script src="js/popper.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/main.js"></script>
+
+	</body>
+</html>
+
